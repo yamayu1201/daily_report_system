@@ -41,22 +41,22 @@ public class EmployeesUpdateServlet extends HttpServlet {
 
             Employee e = em.find(Employee.class, (Integer)(request.getSession().getAttribute("employee_id")));
 
-            //現在の値と異なる社員番号が入力されていたら
-            //重複チェックを行う指定をする
+            // 現在の値と異なる社員番号が入力されていたら
+            // 重複チェックを行う指定をする
             Boolean codeDuplicateCheckFlag = true;
-            if(e.getCode().equals(request.getParameter("code"))){
+            if(e.getCode().equals(request.getParameter("code"))) {
                 codeDuplicateCheckFlag = false;
-            }else{
+            } else {
                 e.setCode(request.getParameter("code"));
             }
 
-            //パスワード欄に入力があったら
-            //パスワードの入力値チェックを行う指定をする
+            // パスワード欄に入力があったら
+            // パスワードの入力値チェックを行う指定をする
             Boolean passwordCheckFlag = true;
             String password = request.getParameter("password");
-            if(password == null || password.equals("")){
+            if(password == null || password.equals("")) {
                 passwordCheckFlag = false;
-            }else{
+            } else {
                 e.setPassword(
                         EncryptUtil.getPasswordEncrypt(
                                 password,
@@ -83,8 +83,8 @@ public class EmployeesUpdateServlet extends HttpServlet {
             } else {
                 em.getTransaction().begin();
                 em.getTransaction().commit();
-                request.getSession().setAttribute("flush", "更新が完了しました。");
                 em.close();
+                request.getSession().setAttribute("flush", "更新が完了しました。");
 
                 request.getSession().removeAttribute("employee_id");
 
@@ -92,4 +92,5 @@ public class EmployeesUpdateServlet extends HttpServlet {
             }
         }
     }
+
 }
